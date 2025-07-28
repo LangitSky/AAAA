@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kas Kelas 8.5</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#93C5FD',
+                            DEFAULT: '#3B82F6',
+                            dark: '#1D4ED8'
+                        },
+                        secondary: {
+                            light: '#A5F3FC',
+                            DEFAULT: '#06B6D4',
+                            dark: '#0E7490'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #E0F2FE, #BAE6FD, #93C5FD, #3B82F6);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .cloud-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: moveCloud linear infinite;
+        }
+        
+        @keyframes moveCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+        
+        .cloud:nth-child(1) {
+            width: 100px;
+            height: 60px;
+            top: 15%;
+            animation-duration: 35s;
+        }
+        
+        .cloud:nth-child(2) {
+            width: 180px;
+            height: 100px;
+            top: 25%;
+            animation-duration: 50s;
+        }
+        
+        .cloud:nth-child(3) {
+            width: 150px;
+            height: 90px;
+            top: 40%;
+            animation-duration: 45s;
+            animation-delay: 10s;
+        }
+        
+        .card {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #3B82F6, #06B6D4);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .student-item:nth-child(even) {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        
+        .student-item:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+    <div class="cloud-background">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary-dark mb-2">Kas Kelas 8.5</h1>
+            <div class="flex justify-center items-center">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5a7f7875-93be-4167-b6a8-4be6ca589394.png" alt="Logo kelas 8.5 karakter kartun lucu dengan tema sekolah dan buku" class="rounded-full border-4 border-white shadow-lg" />
+            </div>
+            <p class="text-lg text-gray-700 mt-4">Pengelolaan keuangan kelas dengan transparansi dan akuntabilitas</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Saldo Kas Card -->
+            <div class="card rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-light p-3 rounded-full mr-4">
+                        <i class="fas fa-wallet text-primary-dark text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-600 text-sm">Total Kas Kelas</h3>
+                        <p class="text-2xl font-bold text-primary-dark" id="totalBalance">Rp 0</p>
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm mt-2">
+                    <span class="text-green-600"><i class="fas fa-arrow-up mr-1"></i> <span id="totalDeposit">Rp 0</span></span>
+                    <span class="text-red-600"><i class="fas fa-arrow-down mr-1"></i> <span id="totalWithdrawal">Rp 0</span></span>
+                </div>
+            </div>
+
+            <!-- Jumlah Siswa Card -->
+            <div class="card rounded-xl p-6">
+                <div class="flex items-center">
+                    <div class="bg-secondary-light p-3 rounded-full mr-4">
+                        <i class="fas fa-users text-secondary-dark text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-600 text-sm">Jumlah Siswa</h3>
+                        <p class="text-2xl font-bold text-secondary-dark">30 Siswa</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-secondary rounded-full" style="width: 100%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Semua siswa terdaftar</p>
+                </div>
+            </div>
+
+            <!-- Aksi Cepat Card -->
+            <div class="card rounded-xl p-6">
+                <h3 class="text-gray-700 font-semibold mb-4">Aksi Cepat</h3>
+                <div class="space-y-3">
+                    <button onclick="openModal('depositModal')" class="btn-primary text-white py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Setoran
+                    </button>
+                    <button onclick="openModal('withdrawalModal')" class="bg-white border border-gray-300 text-primary-dark py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                        <i class="fas fa-minus mr-2"></i> Catat Pengeluaran
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Daftar Siswa -->
+            <div class="lg:col-span-2">
+                <div class="card rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Daftar Siswa</h2>
+                        <div class="relative">
+                            <input type="text" placeholder="Cari siswa..." class="pl-8 pr-4 py-2 border rounded-lg text-sm w-full max-w-xs" id="searchStudent">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-500 text-sm border-b">
+                                    <th class="pb-2">No</th>
+                                    <th class="pb-2">Nama Siswa</th>
+                                    <th class="pb-2">Terakhir Setor</th>
+                                    <th class="pb-2 text-right">Total Setoran</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentList">
+                                <!-- Data siswa akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Riwayat Transaksi -->
+            <div>
+                <div class="card rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Riwayat Transaksi</h2>
+                        <button class="text-primary hover:text-primary-dark text-sm">Lihat Semua</button>
+                    </div>
+                    
+                    <div class="space-y-4" id="transactionHistory">
+                        <!-- Riwayat akan diisi oleh JavaScript -->
+                        <div class="p-4 bg-blue-50 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-primary bg-opacity-20 p-2 rounded-full mr-3">
+                                    <i class="fas fa-info-circle text-primary"></i>
+                                </div>
+                                <p class="text-sm text-gray-600">Belum ada transaksi. Mulai dengan menambahkan setoran pertama.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Setoran -->
+    <div id="depositModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Tambah Setoran</h3>
+                <button onclick="closeModal('depositModal')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Pilih Siswa</label>
+                    <select class="w-full border rounded-lg px-4 py-2" id="depositStudent">
+                        <!-- Opsi siswa akan diisi oleh JavaScript -->
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Jumlah (Rp)</label>
+                    <input type="number" class="w-full border rounded-lg px-4 py-2" id="depositAmount" placeholder="10000" min="1000" step="1000">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Tanggal</label>
+                    <input type="date" class="w-full border rounded-lg px-4 py-2" id="depositDate">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Catatan (Opsional)</label>
+                    <textarea class="w-full border rounded-lg px-4 py-2" id="depositNote" placeholder="Misal: Iuran bulan November" rows="2"></textarea>
+                </div>
+                
+                <button onclick="addDeposit()" class="btn-primary text-white py-2 px-6 rounded-lg w-full mt-2">
+                    <i class="fas fa-save mr-2"></i> Simpan Setoran
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pengeluaran -->
+    <div id="withdrawalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Catat Pengeluaran</h3>
+                <button onclick="closeModal('withdrawalModal')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Keperluan</label>
+                    <input type="text" class="w-full border rounded-lg px-4 py-2" id="withdrawalPurpose" placeholder="Misal: Beli alat tulis">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Jumlah (Rp)</label>
+                    <input type="number" class="w-full border rounded-lg px-4 py-2" id="withdrawalAmount" placeholder="10000" min="1000" step="1000">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Tanggal</label>
+                    <input type="date" class="w-full border rounded-lg px-4 py-2" id="withdrawalDate">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Catatan (Opsional)</label>
+                    <textarea class="w-full border rounded-lg px-4 py-2" id="withdrawalNote" placeholder="Misal: Untuk beli buku pelajaran" rows="2"></textarea>
+                </div>
+                
+                <button onclick="addWithdrawal()" class="bg-white border border-primary text-primary py-2 px-6 rounded-lg w-full mt-2 hover:bg-primary hover:text-white transition">
+                    <i class="fas fa-save mr-2"></i> Simpan Pengeluaran
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data awal
+        let students = [
+            { id: 1, name: 'Adi Pratama', lastDeposit: '', totalDeposit: 0 },
+            { id: 2, name: 'Budi Santoso', lastDeposit: '', totalDeposit: 0 },
+            { id: 3, name: 'Citra Dewi', lastDeposit: '', totalDeposit: 0 },
+            { id: 4, name: 'Dian Purnama', lastDeposit: '', totalDeposit: 0 },
+            { id: 5, name: 'Eka Wulandari', lastDeposit: '', totalDeposit: 0 },
+            { id: 6, name: 'Fajar Nugroho', lastDeposit: '', totalDeposit: 0 },
+            { id: 7, name: 'Gita Ramadhani', lastDeposit: '', totalDeposit: 0 },
+            { id: 8, name: 'Hadi Susanto', lastDeposit: '', totalDeposit: 0 },
+            { id: 9, name: 'Indah Permata', lastDeposit: '', totalDeposit: 0 },
+            { id: 10, name: 'Joko Wijaya', lastDeposit: '', totalDeposit: 0 },
+            { id: 11, name: 'Kartika Sari', lastDeposit: '', totalDeposit: 0 },
+            { id: 12, name: 'Luki Setiawan', lastDeposit: '', totalDeposit: 0 },
+            { id: 13, name: 'Maya Puspitasari', lastDeposit: '', totalDeposit: 0 },
+            { id: 14, name: 'Nugroho Adi', lastDeposit: '', totalDeposit: 0 },
+            { id: 15, name: 'Oki Wijaya', lastDeposit: '', totalDeposit: 0 },
+            { id: 16, name: 'Putri Anggraini', lastDeposit: '', totalDeposit: 0 },
+            { id: 17, name: 'Rudi Hartono', lastDeposit: '', totalDeposit: 0 },
+            { id: 18, name: 'Sari Dewi', lastDeposit: '', totalDeposit: 0 },
+            { id: 19, name: 'Tito Prakoso', lastDeposit: '', totalDeposit: 0 },
+            { id: 20, name: 'Umi Kartini', lastDeposit: '', totalDeposit: 0 },
+            { id: 21, name: 'Vina Melati', lastDeposit: '', totalDeposit: 0 },
+            { id: 22, name: 'Wahyu Setiawan', lastDeposit: '', totalDeposit: 0 },
+            { id: 23, name: 'Yani Puspita', lastDeposit: '', totalDeposit: 0 },
+            { id: 24, name: 'Zainal Abidin', lastDeposit: '', totalDeposit: 0 },
+            { id: 25, name: 'Ahmad Fauzi', lastDeposit: '', totalDeposit: 0 },
+            { id: 26, name: 'Bayu Nugraha', lastDeposit: '', totalDeposit: 0 },
+            { id: 27, name: 'Cindy Putri', lastDeposit: '', totalDeposit: 0 },
+            { id: 28, name: 'Doni Saputra', lastDeposit: '', totalDeposit: 0 },
+            { id: 29, name: 'Erni Wati', lastDeposit: '', totalDeposit: 0 },
+            { id: 30, name: 'Feri Susilo', lastDeposit: '', totalDeposit: 0 }
+        ];
+
+        let transactions = [];
+        let totalBalance = 0;
+        let totalDeposit = 0;
+        let totalWithdrawal = 0;
+
+        // Fungsi untuk format rupiah
+        function formatRupiah(amount) {
+            return 'Rp ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        // Fungsi untuk memuat data siswa
+        function loadStudents() {
+            const studentList = document.getElementById('studentList');
+            const depositStudent = document.getElementById('depositStudent');
+            
+            studentList.innerHTML = '';
+            depositStudent.innerHTML = '<option value="">Pilih siswa...</option>';
+            
+            students.forEach((student, index) => {
+                // Untuk tabel siswa
+                const row = document.createElement('tr');
+                row.className = 'student-item py-2';
+                row.innerHTML = `
+                    <td class="py-3">${index + 1}</td>
+                    <td class="py-3">${student.name}</td>
+                    <td class="py-3">${student.lastDeposit || '-'}</td>
+                    <td class="py-3 text-right">${student.totalDeposit > 0 ? formatRupiah(student.totalDeposit) : '-'}</td>
+                `;
+                studentList.appendChild(row);
+                
+                // Untuk dropdown pilihan siswa di modal setoran
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = student.name;
+                depositStudent.appendChild(option);
+            });
+        }
+
+        // Fungsi untuk memuat riwayat transaksi
+        function loadTransactions() {
+            const transactionHistory = document.getElementById('transactionHistory');
+            
+            if (transactions.length === 0) {
+                transactionHistory.innerHTML = `
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-primary bg-opacity-20 p-2 rounded-full mr-3">
+                                <i class="fas fa-info-circle text-primary"></i>
+                            </div>
+                            <p class="text-sm text-gray-600">Belum ada transaksi. Mulai dengan menambahkan setoran pertama.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            transactionHistory.innerHTML = '';
+            
+            const recentTransactions = transactions.slice(-5).reverse();
+            
+            recentTransactions.forEach(transaction => {
+                const isDeposit = transaction.type === 'deposit';
+                const transactionElement = document.createElement('div');
+                transactionElement.className = 'p-4 bg-white rounded-lg border border-gray-100';
+                
+                transactionElement.innerHTML = `
+                    <div class="flex justify-between items-start mb-1">
+                        <div class="flex items-center">
+                            <div class="${isDeposit ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} p-2 rounded-full mr-3">
+                                <i class="fas ${isDeposit ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium ${isDeposit ? 'text-green-800' : 'text-red-800'}">${transaction.purpose || transaction.studentName}</h4>
+                                <p class="text-xs text-gray-500">${transaction.date}</p>
+                            </div>
+                        </div>
+                        <span class="${isDeposit ? 'text-green-600' : 'text-red-600'} font-medium">${isDeposit ? '+' : '-'} ${formatRupiah(transaction.amount)}</span>
+                    </div>
+                    ${transaction.note ? `<p class="text-sm text-gray-600 mt-2 pl-11">${transaction.note}</p>` : ''}
+                `;
+                
+                transactionHistory.appendChild(transactionElement);
+            });
+        }
+
+        // Fungsi untuk update total saldo
+        function updateTotals() {
+            totalDeposit = students.reduce((sum, student) => sum + student.totalDeposit, 0);
+            totalWithdrawal = transactions
+                .filter(t => t.type === 'withdrawal')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            totalBalance = totalDeposit - totalWithdrawal;
+            
+            document.getElementById('totalBalance').textContent = formatRupiah(totalBalance);
+            document.getElementById('totalDeposit').textContent = formatRupiah(totalDeposit);
+            document.getElementById('totalWithdrawal').textContent = formatRupiah(totalWithdrawal);
+        }
+
+        // Fungsi untuk buka modal
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Set tanggal hari ini sebagai default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('depositDate').value = today;
+            document.getElementById('withdrawalDate').value = today;
+        }
+
+        // Fungsi untuk tutup modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fungsi untuk tambah setoran
+        function addDeposit() {
+            const studentId = parseInt(document.getElementById('depositStudent').value);
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            const date = document.getElementById('depositDate').value;
+            const note = document.getElementById('depositNote').value;
+            
+            if (!studentId || isNaN(amount) || amount < 1000 || !date) {
+                alert('Mohon lengkapi data setoran dengan benar (minimal Rp 1.000)');
+                return;
+            }
+            
+            const student = students.find(s => s.id === studentId);
+            const formattedDate = new Date(date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Update data siswa
+            student.totalDeposit += amount;
+            student.lastDeposit = formattedDate;
+            
+            // Tambah transaksi
+            transactions.push({
+                id: Date.now(),
+                type: 'deposit',
+                studentId: studentId,
+                studentName: student.name,
+                amount: amount,
+                date: formattedDate,
+                note: note
+            });
+            
+            // Update UI
+            loadStudents();
+            loadTransactions();
+            updateTotals();
+            
+            // Reset form dan tutup modal
+            document.getElementById('depositStudent').value = '';
+            document.getElementById('depositAmount').value = '';
+            document.getElementById('depositNote').value = '';
+            closeModal('depositModal');
+            
+            alert(`Setoran ${formatRupiah(amount)} dari ${student.name} berhasil dicatat`);
+        }
+
+        // Fungsi untuk tambah pengeluaran
+        function addWithdrawal() {
+            const purpose = document.getElementById('withdrawalPurpose').value.trim();
+            const amount = parseInt(document.getElementById('withdrawalAmount').value);
+            const date = document.getElementById('withdrawalDate').value;
+            const note = document.getElementById('withdrawalNote').value;
+            
+            if (!purpose || isNaN(amount) || amount < 1000 || !date) {
+                alert('Mohon lengkapi data pengeluaran dengan benar (minimal Rp 1.000)');
+                return;
+            }
+            
+            if (amount > totalBalance) {
+                alert('Saldo kas tidak mencukupi untuk pengeluaran ini');
+                return;
+            }
+            
+            const formattedDate = new Date(date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Tambah transaksi
+            transactions.push({
+                id: Date.now(),
+                type: 'withdrawal',
+                purpose: purpose,
+                amount: amount,
+                date: formattedDate,
+                note: note
+            });
+            
+            // Update UI
+            loadTransactions();
+            updateTotals();
+            
+            // Reset form dan tutup modal
+            document.getElementById('withdrawalPurpose').value = '';
+            document.getElementById('withdrawalAmount').value = '';
+            document.getElementById('withdrawalNote').value = '';
+            closeModal('withdrawalModal');
+            
+            alert(`Pengeluaran ${formatRupiah(amount)} untuk ${purpose} berhasil dicatat`);
+        }
+
+        // Fungsi pencarian siswa
+        function setupSearch() {
+            const searchInput = document.getElementById('searchStudent');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#studentList tr');
+                
+                rows.forEach(row => {
+                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    row.style.display = name.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudents();
+            loadTransactions();
+            updateTotals();
+            setupSearch();
+            
+            // Tambah event listener untuk klik di luar modal
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('hidden')) {
+                    closeModal('depositModal');
+                    closeModal('withdrawalModal');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
